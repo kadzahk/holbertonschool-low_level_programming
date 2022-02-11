@@ -8,7 +8,7 @@ int main(void)
 int num = 0;
 while (num < 10)
 {
-printf("%i", n);
+printf("%i", num);
 num++;
 }
 putchar('\n');
