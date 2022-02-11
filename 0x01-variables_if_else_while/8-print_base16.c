@@ -9,8 +9,8 @@ int num;
 char al;
 for (num = '0'; num <= '9'; num++)
 putchar(num);
-for (al = 'a'; al <= 'f'; all++)
-putchar(all);
+for (al = 'a'; al <= 'f'; al++)
+putchar(al);
 putchar('\n');
 return (0);
 }
