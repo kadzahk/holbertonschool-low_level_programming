@@ -17,9 +17,9 @@ _putchar(':');
 _putchar('0' + (m / 10));
 _putchar('0' + (m % 10));
 _putchar('\n');
-min++;
+m++;
 }
-min = 0;
-hours++;
+m = 0;
+h++;
 }
 }
