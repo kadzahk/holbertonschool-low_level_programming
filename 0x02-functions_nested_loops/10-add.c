@@ -1,4 +1,4 @@
-#include "holberton.h"
+#include "main.h"
 /**
  * add - function that plus 2 integral
  * @q: first integral
