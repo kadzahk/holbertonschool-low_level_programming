@@ -9,6 +9,7 @@
 int num_checker(char *a)
 {
 	int x, num, l;
+
 	x = 0;
 	num = 0;
 	l = strlen(a);
