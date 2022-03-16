@@ -1,5 +1,5 @@
-#ifndef OPERATIONS
-#define OPERATIONS
+#ifndef CALC_H
+#define CALC_H
 /**
  * struct op - Struct op
  *
