@@ -1,69 +1,97 @@
 #include "lists.h"
-#include <stdlib.h>
 #include <stdio.h>
-#include <stddef.h>
-/**
- * _strlen - gets length of the string
- * @s: string
- * Return: length of the string
- */
-int _strlen(const char *s)
-{
-	int i;
+#include <stdlib.h>
+#include <string.h>
 
-	for (i = 0; s[i]; i++)
-		;
-	return (i);
-}
 /**
- * _strdup - recreation of string duplicate function
- * @src: source of string to duplicate
- * Return: pointer to malloc'd space with copied string
+ * add_node_end - function that adds a new node at the end of a list_t list
+ * @head: pointer to the pointer to the struct named head
+ * @str: pointer to the string str
+ *
+ * Return: pointer to the struct list_t
  */
-void *_strdup(const char *src)
-{
-	int len, i;
-	char *pnt;
 
-	len = _strlen(src);
-	pnt = malloc((len + 1) * sizeof(char));
-	if (pnt == NULL)
-		return (NULL);
-	for (i = 0; src[i]; i++)
-		pnt[i] = src[i];
-	pnt[i] = '\0';
-	return (pnt);
-}
-/**
- * add_node_end - add new nodes to the end of the list
- * @head: current place in the list
- * @str: string to add to the head
- * Return: pointer to current position in list
- */
 list_t *add_node_end(list_t **head, const char *str)
 {
-	list_t *new, *current;
-	char *trstring;
+	list_t *tmp;
+	list_t *tmpp;
+
+	tmp = malloc(sizeof(list_t));
+	if (tmp == NULL)
+	{
+		free(tmp);
+		return (NULL);
+	}
+	tmp->str = _strdup(str);
+	tmp->len = _strlen(str);
+	tmp->next = NULL;
+	if (*head == NULL)
+		*head = tmp;
+	else
+	{
+		tmpp = *head;
+		while (tmpp->next != NULL)
+			tmpp = tmpp->next;
+		tmpp->next = tmp;
+	}
+	return (tmp);
+}
+
+/**
+ * _strlen - function that returns the length of a string
+ *
+ * @s: parameter defined in main
+ *
+ * Return: length of string
+ */
+
+int _strlen(const char *s)
+{
+	int i = 0;
+
+	while (*s != '\0')
+	{
+		i++;
+		s++;
+	}
+	return (i);
+}
+
+/**
+ * _strdup - function that returns a pointer to a newly allocated space
+ * in memory, which contains a copy of the string given as a parameter
+ *
+ * @str: string of chars
+ *
+ * Return: address of the newly allocated memory
+ */
+
+char *_strdup(const char *str)
+{
+	unsigned int len;
+	unsigned int i, j;
+	char *cop;
+	const char *tmp = str;
 
 	if (str == NULL)
 		return (NULL);
-	trstring = _strdup(str);
-	if (trstring == NULL)
+
+	i = 0;
+	while (*str++)
+		i++;
+	len = i;
+	str = tmp;
+
+	cop = malloc(len * sizeof(char) + 1);
+	if (cop == NULL)
 		return (NULL);
-	new = malloc(sizeof(list_t));
-	if (new == NULL)
-		return (NULL);
-	new->str = trstring;
-	new->len = _strlen(str);
-	new->next = NULL;
-	if (*head == NULL)
+
+	j = 0;
+	while (j < len)
 	{
-		*head = new;
-		return (*head);
+		cop[j] = str[j];
+		j++;
 	}
-	current = *head;
-	while (current->next != NULL)
-		current = current->next;
-	current->next = new;
-	return (*head);
+	cop[j] = '\0';
+	return (cop);
 }
