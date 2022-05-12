@@ -9,43 +9,43 @@
  */
 dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 {
-	dlistint_t *prim, *sec, *aux = *h;
+	dlistint_t *next, *sec, *actual = *h;
 	unsigned int i = 0;
 
-	prim = malloc(sizeof(dlistint_t));
-	if (!prim)
+	next = malloc(sizeof(dlistint_t));
+	if (!next)
 		return (NULL);
-	prim->n = n;
-	prim->next = NULL;
-	prim->prev = NULL;
+	next->n = n;
+	next->next = NULL;
+	next->prev = NULL;
 	if (*h == NULL)
 	{
-		*h = prim;
-		return (prim);
+		*h = next;
+		return (next);
 	}
 	if (idx == 0)
 	{
-		(*h)->prev = prim, prim->next = *h, *h = prim;
-		return (prim);
+		(*h)->prev = next, next->next = *h, *h = next;
+		return (next);
 	}
-	while (aux != NULL)
+	while (actual != NULL)
 	{
 		if (i == idx)
 		{
-			sec = aux->prev;
-			aux->prev = prim;
-			prim->prev = sec;
-			prim->next = aux;
-			sec->next = prim;
-			return (prim);
+			sec = actual->prev;
+			actual->prev = next;
+			next->prev = sec;
+			next->next = actual;
+			sec->next = next;
+			return (next);
 		}
-		if (i + 1 == idx && aux->next == NULL)
+		if (i + 1 == idx && actual->next == NULL)
 		{
-			aux->next = prim;
-			prim->prev = aux;
-			return (prim);
+			actual->next = next;
+			next->prev = actual;
+			return (next);
 		}
-		aux = aux->next;
+		actual = actual->next;
 		i++;
 	}
 	return (NULL);
