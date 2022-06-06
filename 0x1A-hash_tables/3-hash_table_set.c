@@ -1,46 +1,41 @@
 #include "hash_tables.h"
-
+#include <string.h>
 /**
- * hash_table_set - function that adds an element to the hash table
- * @ht: hash table you want to add or update the key/value to
- * @key: key to be added to the hash table
- * @value: corresponding value to be added to the hash table
+ * hash_table_set - function that adds an element to the hash table.
+ * @ht: is the hash table you want to add or update the key/value to
+ * @key: key inside the hash table - can not be an empty string
+ * @value: value to pair with key - must be duplicated - can be an empty string
  * Return: 1 if it succeeded, 0 otherwise
  */
-
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 {
-	hash_node_t *new_node, *temp = NULL;
+	hash_node_t *new_node = NULL;
+	hash_node_t *aux = NULL;
 	unsigned long int index = 0;
 
-	if (!ht || !key || !value)
+	if (!ht || !key || !*key || !value)
 		return (0);
 
 	index = key_index((const unsigned char *)key, ht->size);
+	aux = ht->array[index];
 
-	temp = ht->array[index];
-	while (temp != NULL)
+	while (aux != NULL)
 	{
-		if (strcmp(temp->key, key) == 0)
+		if (strcmp(aux->key, key) == 0)
 		{
-			free(temp->value), temp->value = strdup(value);
+			free(aux->value);
+			aux->value = strdup(value);
 			return (1);
+
 		}
-		temp = temp->next;
+		aux = aux->next;
 	}
-	new_node = malloc(sizeof(struct hash_node_s));
+	new_node = malloc(sizeof(hash_node_t));
 	if (new_node == NULL)
 		return (0);
-	new_node->key = strdup(key);
 	new_node->value = strdup(value);
-	new_node->next = NULL;
-
-	if (ht->array[index] == NULL)
-		ht->array[index] = new_node;
-	else
-	{
-		new_node->next = ht->array[index];
-		ht->array[index] = new_node;
-	}
+	new_node->key = strdup(key);
+	new_node->next = ht->array[index];
+	ht->array[index] = new_node;
 	return (1);
 }
